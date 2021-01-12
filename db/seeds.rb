@@ -10,15 +10,16 @@ Question.destroy_all  #delete data in table before test to add seed
 
 
 200.times do
-    created_at=Faker::Date.backward(days: 365*5)
-   Question.create(
+    
+#    q=
+    Question.create(
        title: Faker::Hacker.say_something_smart,
        body: Faker::ChuckNorris.fact,
        view_count: rand(100_000),
        created_at: created_at,
        updated_at: created_at
    )
-
+# puts q.errors.full_messages
 end
 
 
