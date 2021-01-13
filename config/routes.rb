@@ -19,6 +19,17 @@ Rails.application.routes.draw do
   # get('/questions/:id/edit', to: "questions#edit", as: :edit_question)
   # patch('/questions/:id', to: "questions#update")
 
-  resources :questions
+  # resources will built a CRUD restful routes.(all of the above routes)
+  # It assumes that there will be a controller name as a first argument , pluralize and pascalCase
+  #PascalCase
+  resources :questions do
+    #All the resources in this block will be prefixed by this
+    # /questions/:question_id
+    # So we can now grab questio_id from params like params[:question_id]
+    resources :answers, only:[:create, :destroy]
+     #this will only generate routes for :create and :destroy
+     # like questions/:question_id/answers/:id
+      # like questions/:question_id/answers/:id/edit
+  end
 
 end
