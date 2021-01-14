@@ -70,6 +70,7 @@
 # end
 #After
 class QuestionsController < ApplicationController
+    before_action :authenticate_user!, except: [:index, :show]
     before_action :find_question, only:[:show, :edit, :update, :destroy]
 
     # 1. Create Index method
@@ -84,6 +85,8 @@ class QuestionsController < ApplicationController
 
     def show
         # puts params[:id]
+        @answers = @question.answers.order(created_at: :desc)
+        @answer = Answer.new
     end
     # Create destroy method
     # creating a link for destroy
@@ -104,6 +107,7 @@ class QuestionsController < ApplicationController
     end
     def create
         @question=Question.new question_params
+        @question.user = current_user
 
         if @question.save
             flash[:notice] = "Question created sucessfully."

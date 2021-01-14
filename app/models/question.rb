@@ -9,6 +9,8 @@ class Question < ApplicationRecord
 
     # ASSOCIATION WITH ANSWER MODEL
     has_many :answers, dependent: :destroy # in case of delete (:nulify mean keep even delete question)
+    #Association with uer model
+    belongs_to :user, optional: true
 
     # To read more on validations, go to:
     # https://guides.rubyonrails.org/active_record_validations.html

@@ -32,4 +32,11 @@ Rails.application.routes.draw do
       # like questions/:question_id/answers/:id/edit
   end
 
+  resources :users, only: [:new, :create]
+  resource :session, only: [:new, :create, :destroy]
+  # resource is singular instead of resources
+  # Unlike resources, resource will create routes that do CRUD operations only on one thing. 
+  # There will be no index routes and no route will have an :id wildcard
+  # Even with singular resource controller will still be plural.
+  #ex  specific user profile.
 end
