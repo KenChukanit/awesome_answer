@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
     before_action :authenticate_user!
+  
     def create
         @question = Question.find params[:question_id]
         @answer=Answer.new answer_params
@@ -20,8 +21,12 @@ class AnswersController < ApplicationController
         # questions/:question_id/answers/:id
         # questions/8/anaswers/1
         @answer=Answer.find params[:id]
+        if can?(:crud, @answer)
         @answer.destroy
         redirect_to question_path(@question), notice: "Answer deleted"
+        else
+            redirect_to root_path, alert: 'Not Authorized'
+        end
     end
         
     

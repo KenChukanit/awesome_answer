@@ -14,7 +14,8 @@ super_user= User.create(
     first_name: 'Jon',
     last_name:'Snow',
     email: 'js@winterfell.gov',
-    password: PASSWORD
+    password: PASSWORD,
+    is_admin: true
 )
 
 10.times do
@@ -56,7 +57,7 @@ puts Cowsay.say("Generated #{question.count} questions.",:frogs)
 puts Cowsay.say("Generated #{answer.count} answers.",:tux)
 puts Cowsay.say("Generated #{users.count} answers.",:beavis)
 puts Cowsay.say("Login with  #{super_user.email} and password:#{PASSWORD}.",:koala)
-p
+
 
 
 # Some terminal commands to delete create and run migration and seed files
