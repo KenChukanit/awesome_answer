@@ -1,5 +1,4 @@
-# https://gist.github.com/chsh/5488728  Example
-
+# https://gist.github.com/chsh/5488728
 require 'rails_helper'
 # rails g rspec:controller job_posts --controller-specs --no-request-specs
 RSpec.describe JobPostsController, type: :controller do
@@ -119,8 +118,57 @@ RSpec.describe JobPostsController, type: :controller do
         it "render the edit template" do
             # Given
             job_post=FactoryBot.create(:job_post)
+            #When
             get(:edit, params:{id: job_post.id})
+            # then
             expect(response).to render_template :edit
         end
     end# 👈🏻 describe 'edit' ends here 
+    describe '#update' do# 👈🏻 describe 'update' starts here 
+        before do
+            #given
+            @job_post= FactoryBot.create(:job_post)
+        end
+        context "with valid parameters" do
+            it "update the job post record with new attributes" do
+
+                #when
+                new_title = "#{@job_post.title} plus some changes!!!"
+                patch(:update, params:{id: @job_post.id, job_post:{title: new_title}})
+                #then
+                expect(@job_post.reload.title).to(eq(new_title))
+            end
+            it 'redirect to the show page' do
+                new_title = "#{@job_post.title} plus some changes!!!"
+                patch(:update, params:{id: @job_post.id, job_post:{title: new_title}})
+                expect(response).to redirect_to(@job_post)
+
+            end
+        end
+        context 'with invalid parameters' do 
+            it 'should not update the job post record' do
+                patch(:update, params:{id: @job_post.id, job_post: {title: nil}})
+                job_post_after_update = JobPost.find(@job_post.id)
+                expect(job_post_after_update.title).to(eq(@job_post.title))
+            end
+        end
+    end# 👈🏻 describe 'update' ends here 
+    describe '#destroy' do
+        before do
+            #given
+            @job_post=FactoryBot.create(:job_post)
+            #when
+            delete(:destroy, params:{id: @job_post.id})
+        end
+        it 'remove job post from the db' do
+            #then 
+            expect(JobPost.find_by(id: @job_post.id)).to(be(nil))
+        end
+        it 'redirect to the job post index' do
+            expect(response).to redirect_to(job_posts_path)
+        end
+        it 'set a flash message' do
+            expect(flash[:danger]).to be
+        end 
+    end
 end
