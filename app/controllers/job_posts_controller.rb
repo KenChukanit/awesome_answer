@@ -17,4 +17,16 @@ class JobPostsController < ApplicationController
             render :new
         end
     end
+
+    def show
+        @job_post = JobPost.find params[:id]
+    end
+
+    def index
+        @job_posts = JobPost.all.order(created_at: :desc)
+    end
+
+    def edit
+        
+    end
 end

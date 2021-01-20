@@ -40,5 +40,5 @@ Rails.application.routes.draw do
   # Even with singular resource controller will still be plural.
   #ex  specific user profile.
 
-  resources :job_posts, only: [:new, :create, :show]
+  resources :job_posts, only: [:new, :create, :show, :index, :edit]
 end

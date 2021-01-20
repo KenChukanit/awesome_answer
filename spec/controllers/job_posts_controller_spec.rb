@@ -1,3 +1,5 @@
+# https://gist.github.com/chsh/5488728  Example
+
 require 'rails_helper'
 # rails g rspec:controller job_posts --controller-specs --no-request-specs
 RSpec.describe JobPostsController, type: :controller do
@@ -75,4 +77,50 @@ RSpec.describe JobPostsController, type: :controller do
             end
         end
     end# 👈🏻 describe 'create' ends here 
+    describe '#show' do# 👈🏻 describe 'show' start here 
+        it 'render show template' do
+            # Given
+            job_post=FactoryBot.create(:job_post)
+            # When
+            get(:show, params:{id: job_post.id})
+            # Then
+            expect(response).to render_template(:show)
+        end
+        it 'set an instance variable @job_post for the shown object' do
+            # Given
+            job_post=FactoryBot.create(:job_post)
+            # When
+            get(:show, params:{id: job_post.id})
+            # Then
+            expect(assigns(:job_post)).to(eq(job_post))
+            
+        end
+    end# 👈🏻 describe 'show' ends here 
+    describe '#index' do # 👈🏻 describe 'index' starts here 
+        it 'render the index template' do
+            #given
+            #when
+            get(:index)
+            #then
+            expect(response).to render_template(:index)
+        end
+        it 'assign an instance variable @job_posts which contains all created job posts' do
+            # Given
+            job_post_1=FactoryBot.create(:job_post)
+            job_post_2=FactoryBot.create(:job_post)
+            job_post_3=FactoryBot.create(:job_post)
+            # When
+            get(:index)
+            # Then
+            expect(assigns(:job_posts)).to eq([job_post_3, job_post_2,job_post_1])
+        end
+    end# 👈🏻 describe 'index' ends here 
+    describe "# edit" do# 👈🏻 describe 'edit' starts here 
+        it "render the edit template" do
+            # Given
+            job_post=FactoryBot.create(:job_post)
+            get(:edit, params:{id: job_post.id})
+            expect(response).to render_template :edit
+        end
+    end# 👈🏻 describe 'edit' ends here 
 end
