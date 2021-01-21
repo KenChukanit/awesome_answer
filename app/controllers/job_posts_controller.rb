@@ -1,5 +1,5 @@
 class JobPostsController < ApplicationController
-    before_action :authenticate_user!, except: [:index, :show]
+    before_action :authenticate_user!, except:[:index,:show]
     before_action :find_job_post,only:[:show,:update, :destroy]
     def new
         @job_post=JobPost.new
@@ -43,10 +43,14 @@ class JobPostsController < ApplicationController
         end
     end
     def destroy
-        
+        if can?(:delete,@job_post)
         @job_post.destroy
         flash[:danger]= 'deleted job post'
         redirect_to job_posts_path
+        else
+            flash[:danger]="Access Denied"
+            redirect_to job_post_url(@job_post)
+        end
     end
     private
     def find_job_post
