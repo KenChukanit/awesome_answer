@@ -80,14 +80,19 @@ class QuestionsController < ApplicationController
     def index
         @questions=Question.all.order(created_at: :desc)
     end
+
+    def liked
+        @questions = current_user.liked_questions.order(created_at: :desc)
+    end
     # 1. Create show method
     # 2. Create view for it in views/questions show.html.erb
     # 3. Wiring every thing together with a route
 
     def show
         # puts params[:id]
-        @answers = @question.answers.order(created_at: :desc)
-        @answer = Answer.new
+        @answers=@question.answers.order(created_at: :desc)
+        @answer=Answer.new
+        @like=@question.likes.find_by(user: current_user)
     end
     # Create destroy method
     # creating a link for destroy
@@ -133,6 +138,8 @@ class QuestionsController < ApplicationController
             render :edit
         end
     end
+
+   
 
 
     private

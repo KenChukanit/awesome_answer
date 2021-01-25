@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # It assumes that there will be a controller name as a first argument , pluralize and pascalCase
   #PascalCase
   resources :questions do
+    resources :likes, shallow: true, only: [:create, :destroy]
+
+    get :liked, on: :collection
     #All the resources in this block will be prefixed by this
     # /questions/:question_id
     # So we can now grab questio_id from params like params[:question_id]

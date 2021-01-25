@@ -52,5 +52,15 @@ class Ability
     user == job_post.user
   end
 
+  can(:like, Question) do |question|
+    user.persisted? && question.user != user
+    # user.persisted? check if user is saved in a db or not
+    # question.user != user . Do not allow a user to like hi/her own question
+  end
+
+  can(:destroy, Like) do |like|
+    like.user == user
+  end
+
   end
 end
