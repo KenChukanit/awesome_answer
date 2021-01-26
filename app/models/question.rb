@@ -8,14 +8,21 @@ class Question < ApplicationRecord
     # - Named arguments, corresponding to the validation rules
 
     # ASSOCIATION WITH ANSWER MODEL
-    has_many :answers, dependent: :destroy # in case of delete (:nulify mean keep even delete question)
-    #Association with uer model
+    has_many :answers, dependent: :destroy # in case of delete
+    # ASSOCIATION WITH USER MODEL
     belongs_to :user, optional: true
 
-     # many to many association
-     has_many :likes
-     has_many :likers, through: :likes  , source: :user
-     # has_many :likes, through: :likes # , source: :user
+    # many to many association
+    has_many :likes
+    has_many :likers, through: :likes  , source: :user
+    # has_many :likes, through: :likes # , source: :user
+
+    has_many :taggings, dependent: :destroy
+    has_many :tags, through: :taggings
+    # 👆🏻If the name of the association (i.e. tags) is the same as 
+    # the source singularized(i.e. tag) then 'source' named argument can be omitted
+
+
     # has_and_belongs_to_many(
     #     :likes,
     #     {
@@ -62,12 +69,34 @@ class Question < ApplicationRecord
 
     # Equivalent to:
     scope(:search, -> (query){ where("title ILIKE ? OR body ILIKE ?", "%#{query}%", "%#{query}%") })
-    
     def self.all_with_answer_counts
         self.left_outer_joins(:answers)
             .select("questions.*","Count(answers.*) AS answers_count")
             .group('questions.id')
     end
+    def tag_names
+        self.tags.map(&:name).join(', ')
+        # {|x| x.name}
+        # self.tags.map{|x| x.name}.join(', ')
+        # The & symbol is user to tell Ruby that the following argument
+        # should be treated as a block given to the method.
+        # The above method will iterate over the collections self.tags
+        # and build an array with the resuld of the name method
+        # called on every item. (We than hus toin the array into the comma sperated string)
+
+    end
+    # Appending = at the end of a method name , allow us to implement
+    # a 'setter'.
+    def tag_names=(rhs)
+        self.tags=rhs.strip.split(/\s*,\s*/).map do|tag_name|
+            Tag.find_or_initialize_by(name: tag_name)
+            # it will try to find the 'tag_name' in a tag table
+            # if a tag with 'tag_name' is not found ,
+            #  it will call Tag.new(name: tag_name)
+        end
+    end
+
+
 
     private
     def capitalize_title

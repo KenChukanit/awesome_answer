@@ -10,8 +10,13 @@ import "channels"
 Rails.start()
 ActiveStorage.start()
 
+
+import './selectize'
 import "bootstrap";
 import "../stylesheets/application"
 import "../packs/question"
 
 console.log('Hello from app/javascript/packs/application.js')
+
+window.jQuery=$;
+window.$=$;

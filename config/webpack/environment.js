@@ -11,3 +11,11 @@ environment.plugins.append('Provide',
 )
 
 module.exports = environment
+
+
+//<div>
+    //<%= #form.collection_check_boxes :tag_ids, Tag.order(name: :asc), :id, :name do |t| %> 
+       // <%= #t.check_box %>
+       // <%= #t.text  %> 
+    //<% #end %> 
+//</div> 

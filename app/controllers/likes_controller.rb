@@ -6,7 +6,7 @@ class LikesController < ApplicationController
         question = Question.find params[:question_id]
         like = Like.new question: question, user: current_user
         if !can?(:like, question)
-            flash[:alert] = 'Youcan not ;ike your own question'
+            flash[:alert] = 'You can not ;ike your own question'
         elsif  like.save
             flash[:notice] = 'Questiion liked'
         else   
@@ -18,7 +18,7 @@ class LikesController < ApplicationController
     def destroy
         like = current_user.likes.find params[:id]
         if !can?(:destroy, like)
-            flash[:alert] = 'You cannott destroy a like you do not own'
+            flash[:alert] = 'You cannot destroy a like you do not own'
         elsif like.destroy
             flash[:notice] = "Question unlike"
         else
