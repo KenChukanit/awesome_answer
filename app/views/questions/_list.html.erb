@@ -1,3 +1,11 @@
+
+<% if @tag.present?  %>
+<h2>Showing Question tagged by:</h2>
+<%= @tag.name  %> 
+
+<% end %>  
+
+
 <% @questions.each do |question|%>
 <div>
 <h2><%= link_to(question.title, question_path(question.id) )%></h2>

@@ -26,4 +26,5 @@ class LikesController < ApplicationController
         end
         redirect_to question_path(like.question)
     end
+    
 end

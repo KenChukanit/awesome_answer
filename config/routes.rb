@@ -44,4 +44,18 @@ Rails.application.routes.draw do
   #ex  specific user profile.
 
   resources :job_posts, only: [:new, :create, :show, :index, :edit, :update, :destroy]
+
+
+  # the options 'defaults: {format: :json}' will set 'json' as the default response
+  # format for all the routes contained within the block
+  # /api/v1/questions
+  namespace :api, defaults: {format: :json} do # we can set default response format of the block
+    namespace :v1 do
+      resources :questions
+    end
+    # namespace :v2 do
+    #   resources :questions
+    # end
+  end
+
 end
