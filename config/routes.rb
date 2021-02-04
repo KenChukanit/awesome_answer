@@ -19,39 +19,42 @@ Rails.application.routes.draw do
   # get('/questions/:id/edit', to: "questions#edit", as: :edit_question)
   # patch('/questions/:id', to: "questions#update")
 
-  # resources will built a CRUD restful routes.(all of the above routes)
-  # It assumes that there will be a controller name as a first argument , pluralize and pascalCase
-  #PascalCase
+
+  # resources will built a CRUD RESTfull routes.(all of the above routes)
+  # It assumes that there will be a contoller name as a first argument, pluralized and PascalCase
+  # PascalCase
   resources :questions do
     resources :likes, shallow: true, only: [:create, :destroy]
 
     get :liked, on: :collection
-    #All the resources in this block will be prefixed by this
-    # /questions/:question_id
-    # So we can now grab questio_id from params like params[:question_id]
-    resources :answers, only:[:create, :destroy]
-     #this will only generate routes for :create and :destroy
-     # like questions/:question_id/answers/:id
-      # like questions/:question_id/answers/:id/edit
+    # All the resources in this block will be prefixed by this👇🏻
+    # /questions/:question_id 
+    # So we can now grab question_id from params like params[:question_id]
+
+    resources :answers, only:[:create, :destroy] # this will only generate routes for :create and :destroy action
+    # /questions/:question_id/answers/:id
+    # /questions/:question_id/answers/:id/edit 
   end
 
-  resources :users, only: [:new, :create]
-  resource :session, only: [:new, :create, :destroy]
+  resources :users, only:[:new, :create]
+  resource :session, only:[:new, :create, :destroy]
   # resource is singular instead of resources
   # Unlike resources, resource will create routes that do CRUD operations only on one thing. 
   # There will be no index routes and no route will have an :id wildcard
   # Even with singular resource controller will still be plural.
-  #ex  specific user profile.
 
-  resources :job_posts, only: [:new, :create, :show, :index, :edit, :update, :destroy]
-
+  resources :job_posts, only: [:new,:create, :show, :index, :edit,:update, :destroy]
+  # The namespace method in Rails routes makes it so that 
+  # your app will automatically look in a directory api
+  # and then in a sub directory v1 for QuestionController
 
   # the options 'defaults: {format: :json}' will set 'json' as the default response
   # format for all the routes contained within the block
   # /api/v1/questions
   namespace :api, defaults: {format: :json} do # we can set default response format of the block
     namespace :v1 do
-      resources :questions
+      resources :questions, only:[:index, :show, :update, :create, :destroy]
+      resource :session, only:[:create, :destroy]
     end
     # namespace :v2 do
     #   resources :questions
