@@ -8,7 +8,7 @@
 # 👆🏻 is like this 👇🏻
 class Api::V1::QuestionsController < Api::ApplicationController
     before_action :find_question, only:[:show, :destroy, :update]
-    before_action :authenticate_user!, except: [:index, :show]
+    before_action :authenticate_user!, except: [:index, :show, :create]
 
     def index 
         # curl http://localhost:3000/api/v1/questions #👈🏻 on terminal
