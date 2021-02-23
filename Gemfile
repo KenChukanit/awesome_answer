@@ -35,6 +35,9 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'rack-cors'
 gem 'rails_same_site_cookie'
+gem 'geocoder'
+gem 'gmaps4rails'
+gem 'underscore-rails', '~> 1.8', '>= 1.8.3'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -57,7 +60,7 @@ group :development do
 #   gem 'cowsay', '~> 0.3.0'
 # gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 # gem 'hirb'
-
+gem "letter_opener"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

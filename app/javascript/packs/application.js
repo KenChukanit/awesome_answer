@@ -15,6 +15,10 @@ import './selectize'
 import "bootstrap";
 import "../stylesheets/application"
 import "../packs/question"
+//import 'underscore'
+//import Gmap from 'gmaps_google.js'
+// rails g gmaps4rails:copy_js
+
 
 console.log('Hello from app/javascript/packs/application.js')
 
